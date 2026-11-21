@@ -66,3 +66,16 @@ FAILED tests/test_leakage.py::test_encode_weather_raises_on_unseen - Failed: ...
 ```
 
 Repair took 1 Claude turn.
+
+## Fault 4:
+Claude's shared project settings denied Bash copy. Write failed. `ls -l data/raw/` showed that the file was absent. 
+
+```text
+$ cp fault4-probe.txt data/raw/fault4-probe.txt
+1 action not run · permission denied · rule from shared project settings
+
+Write(data/raw/fault4-probe.txt)
+Couldn't write file
+```
+
+A read-only mount would also prevent writes to data/raw/ at the filesystem level.
