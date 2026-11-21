@@ -52,3 +52,17 @@ FAILED tests/test_leakage.py::test_rolling_mean_excludes_today - assert np.fl...
 ```
 
 Repair took 1 Claude turn.
+
+## Fault 3
+In `src/features.py`, replaced the `raise ValueError(...)` in `encode_weather` with `pass`, so an unknown weather label no longer raised an error.
+
+**Hook replay**
+```text
+Leakage tests failed after editing src/features.py:
+E       Failed: DID NOT RAISE ValueError
+tests/test_leakage.py:78: Failed
+FAILED tests/test_leakage.py::test_encode_weather_raises_on_unseen - Failed: ...
+1 failed, 8 passed in 7.39s
+```
+
+Repair took 1 Claude turn.
