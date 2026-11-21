@@ -64,3 +64,8 @@ def test_no_missing_values(feats):
 def test_dates_are_sorted_and_unique(feats):
     assert feats.dteday.is_monotonic_increasing
     assert feats.dteday.is_unique
+
+
+def test_cnt_change_1_computed_correctly(feats):
+    # For Jan 12, Jan 11 rides minus Jan 10 rides is 1263 - 1321.
+    assert feats.set_index("dteday").loc["2011-01-12", "cnt_change_1"] == -58
