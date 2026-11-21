@@ -22,4 +22,33 @@ FAILED tests/test_leakage.py::test_no_forbidden_features - AssertionError: forbi
 1 failed, 7 passed in 35.29s
 ```
 
-Repair took 1 Claude turn
+Repair took 1 Claude turn.
+
+## Fault 2
+Removed `.shift(1)` from `cnt_roll_7` in src_feature.py. Rolling mean is included in forecast day's ride count.
+
+**Test output**
+```text
+E           assert np.float64(4389.0) == 4414.857142857143 ± 0.00441486
+E
+E             comparison failed
+E             Obtained: 4389.0
+E             Expected: 4414.857142857143 ± 0.00441486
+
+tests/test_leakage.py:57: AssertionError
+======================================= short test summary info =======================================
+FAILED tests/test_leakage.py::test_rolling_mean_excludes_today - assert np.float64(4389.0) == 4414.857142857143 ± 0.00441486
+1 failed in 7.47s
+```
+
+**Hook replay**
+```text
+Leakage tests failed after editing src/features.py:
+E             Obtained: 4389.0
+E             Expected: 4414.857142857143 ± 0.00441486
+tests/test_leakage.py:57: AssertionError
+FAILED tests/test_leakage.py::test_rolling_mean_excludes_today - assert np.fl...
+1 failed, 7 passed in 9.76s
+```
+
+Repair took 1 Claude turn.
