@@ -69,3 +69,11 @@ def test_dates_are_sorted_and_unique(feats):
 def test_cnt_change_1_computed_correctly(feats):
     # For Jan 12, Jan 11 rides minus Jan 10 rides is 1263 - 1321.
     assert feats.set_index("dteday").loc["2011-01-12", "cnt_change_1"] == -58
+
+
+def test_encode_weather_raises_on_unseen():
+    """encode_weather fails loudly on unmapped labels, not silently via NaN."""
+    from src.features import encode_weather
+
+    with pytest.raises(ValueError, match="unmapped weather labels"):
+        encode_weather(pd.Series(["GOOD", "UNSEEN"]))
