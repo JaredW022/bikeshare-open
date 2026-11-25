@@ -17,12 +17,14 @@ src/features.py line 88: feature_columns() filters these: [c for c in numeric if
 2. Temporal Ordering of Shift Operations
 
 src/features.py lines 54-80:
+```python
 out = reindex_to_calendar(...).copy()
 # ... features ...
 out["cnt_lag_1"] = out[TARGET].shift(1)        # line 78
 out["cnt_lag_7"] = out[TARGET].shift(LAG_WARMUP)  # line 79
 out["cnt_roll_7"] = out[TARGET].shift(1).rolling(LAG_WARMUP).mean()  # line 80
 return out.dropna().reset_index(drop=True)   # line 82
+```
 
 ⚠️ Finding: Line 78-80 shift BEFORE dropna, but the shift is on the already calendar-reindexed dataframe. Since reindex_to_calendar() (line 43-50) creates a complete calendar with explicit NaN rows for missing days, and we're calling .dropna() at line 82 AFTER building lags, the lag shifts are computed on the full-calendar dataframe where gaps are marked as NaN rows.
 
