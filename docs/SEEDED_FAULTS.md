@@ -79,3 +79,25 @@ Couldn't write file
 ```
 
 A read-only mount would also prevent writes to data/raw/ at the filesystem level.
+
+### Fault 4 - Cont.
+
+I manually increased `casual` and `registered`
+by 10% for 182 validation dates and recomputed `cnt` as their sum. Validation dates were then used to preserve January 2011 counts checked by the feature test. Claude reported the checksum, after which, make test was ran.
+
+```text
+Changed CSV SHA-256: 6511b51f2b6177a9230e1d301f29ab02c036fc3921e5a78c7623efb37b3c3946
+17 passed in 9.87s
+```
+
+| Validation MAE | Before | After |
+|---|---:|---:|
+| Mean baseline | 2002.2 | 2424.4 |
+| Persistence baseline | 900.6 | 989.8 |
+
+The tests passed despite the scores changed. A checksum check before feature generation would catch this change to the raw CSV. I reraan tests after restoring the past CSV: 
+
+```text
+a6bed1577f6e4de56dcfae6d8315985073cc0ad3446c8c99ed60c86a0b5ad9dc  data/raw/bike_daily.csv
+17 passed in 17.48s
+```
