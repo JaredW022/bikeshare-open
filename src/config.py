@@ -42,6 +42,21 @@ TIME_INDEX_COLS = {"instant", "yr", "days_since_2011"}
 #    build our own lags from the target and test those instead.
 UNVERIFIED_COLS = {"cnt_2d_bfr"}
 
+# Input columns from the raw CSV file. These are expected to be present
+# after download; any others are unexpected.
+KNOWN_RAW_INPUT_COLS = {
+    "season",
+    "mnth",
+    "holiday",
+    "weekday",
+    "temp",
+    "atemp",
+    "hum",
+    "windspeed",
+    "workday",
+    "weather",
+}
+
 # What feature_columns() and the tests actually enforce.
 FORBIDDEN = LEAKAGE_COLS | TIME_INDEX_COLS | UNVERIFIED_COLS
 
