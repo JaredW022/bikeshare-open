@@ -9,3 +9,4 @@ Agents append here via the `/new-feature` skill; you append here by hand.
 - Split 2011 / H1 2012 / H2 2012 by date. Test set touched once, after all feature work.
 - Report mean and persistence baselines with every score. Persistence (test R^2 0.510, MAE 840) is within 0.07 R^2 of ridge and beats it on MAE; that caveat goes in the report.
 - 2026-11-21; Evaluated `cnt_change_1` using ride counts from two days prior to forecast. Doing so resulted in R^2 falling from 0.6475 to 0.6455 for Ridge, and from 0.2185 down to 0.2026 for HGB. While this is kept in the submitted experiment, it is reccomended to remove this from the deployed model.
+- 2026-11-25; Added `/seed-fault` to `CLAUDE.md`. Updates the skill to append advice, leaving prior entries as is, and records hook output that was observed. 
