@@ -80,14 +80,14 @@ Couldn't write file
 
 A read-only mount would also prevent writes to data/raw/ at the filesystem level.
 
-### Fault 4 - Cont.
+### Fault 4 follow-up — In-place CSV write through Claude Code
 
-I manually increased `casual` and `registered`
-by 10% for 182 validation dates and recomputed `cnt` as their sum. Validation dates were then used to preserve January 2011 counts checked by the feature test. Claude reported the checksum, after which, make test was ran.
+In a temporary Git worktree with the project settings unchanged, I approved a Claude Code Bash call that increased casual and registered by 10% on 182 validation dates and recalculated cnt in the raw CSV. The January 2011 counts used by the feature test were unchanged, and the Bash write produced no PostToolUse hook output.
 
 ```text
-Changed CSV SHA-256: 6511b51f2b6177a9230e1d301f29ab02c036fc3921e5a78c7623efb37b3c3946
-17 passed in 9.87s
+Changed 182 validation rows
+6511b51f2b6177a9230e1d301f29ab02c036fc3921e5a78c7623efb37b3c3946  data/raw/bike_daily.csv
+17 passed in 10.87s
 ```
 
 | Validation MAE | Before | After |
@@ -95,9 +95,11 @@ Changed CSV SHA-256: 6511b51f2b6177a9230e1d301f29ab02c036fc3921e5a78c7623efb37b3
 | Mean baseline | 2002.2 | 2424.4 |
 | Persistence baseline | 900.6 | 989.8 |
 
-The tests passed despite the scores changed. A checksum check before feature generation would catch this change to the raw CSV. I reraan tests after restoring the past CSV: 
+The write changed the reported scores while all 17 tests passed. A checksum check against the expected raw CSV before feature generation would catch the change.
+
+I restored the CSV from Git in the temporary worktree and reran the tests.
 
 ```text
 a6bed1577f6e4de56dcfae6d8315985073cc0ad3446c8c99ed60c86a0b5ad9dc  data/raw/bike_daily.csv
-17 passed in 17.48s
+17 passed in 27.59s
 ```
